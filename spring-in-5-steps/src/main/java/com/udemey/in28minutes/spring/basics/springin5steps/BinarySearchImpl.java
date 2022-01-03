@@ -8,8 +8,14 @@ public class BinarySearchImpl {
 	@Autowired	
 	private SortAlgorithm algorithm;
 	
-	public BinarySearchImpl(SortAlgorithm algorithm) {
-		super();
+	//constructor injection
+	/*
+	 * public BinarySearchImpl(SortAlgorithm algorithm) { super(); this.algorithm =
+	 * algorithm; }
+	 */
+	//setter injection
+	
+	public void setAlgorithm(SortAlgorithm algorithm) {
 		this.algorithm = algorithm;
 	}
 
