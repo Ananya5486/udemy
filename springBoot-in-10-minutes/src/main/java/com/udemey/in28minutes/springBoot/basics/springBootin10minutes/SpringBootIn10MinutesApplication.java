@@ -10,9 +10,9 @@ public class SpringBootIn10MinutesApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = (ApplicationContext) SpringApplication.run(SpringBootIn10MinutesApplication.class, args);
-		for (String name : applicationContext.get) {
-			
-		}
+//		for (String name : applicationContext.get) {
+//			
+//		}
 	}
 
 }
