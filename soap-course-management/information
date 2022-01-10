@@ -1,0 +1,6 @@
+xml structure
+
+GetCouseDetailsRequest-> GetCouseDetailsResponse
+
+input->id
+output->course details
