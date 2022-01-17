@@ -29,6 +29,20 @@ targetNamespace="http://in28minutes.udemy.com/courses" xmlns:tns="http://in28min
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="DeleteRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DeleteResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:complexType name="CourseDetails">
 		<xs:sequence>
 			<xs:element name="id" type="xs:int" />
