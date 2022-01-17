@@ -10,6 +10,9 @@ import com.udemy.in28minutes.soap.webservices.soapcoursemanagement.soap.bean.Cou
 
 @Component
 public class CourseDetailsService {
+	public enum Status{
+		SUCCESS,FAILURE;
+	}
 	private static List<Course> course=new ArrayList<Course>();
 	static {
 		Course course1=new Course(1, "Spring", "10 Step");
@@ -41,14 +44,15 @@ public class CourseDetailsService {
 	}
 //delete
 	//Course deleteById(int id)
-	public int deleteById(int id) {
+	public Status deleteById(int id) {
 		Iterator<Course> iterator = course.iterator();
 		while (iterator.hasNext()) {
 			 Course course2 = iterator.next();
-			 if(course2.getId()==id)
+			 if(course2.getId()==id) {
 				 iterator.remove();
-				 return 1;
+				 return Status.SUCCESS;
+			 }
 		}
-		return 0;
+		return Status.FAILURE;
 	}
 }
