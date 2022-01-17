@@ -16,6 +16,7 @@ import com.udemy.in28minutes.courses.GetAllCourseDetailsResponse;
 import com.udemy.in28minutes.courses.GetCourseDetailsRequest;
 import com.udemy.in28minutes.courses.GetCourseDetailsResponse;
 import com.udemy.in28minutes.soap.webservices.soapcoursemanagement.soap.bean.Course;
+import com.udemy.in28minutes.soap.webservices.soapcoursemanagement.soap.exception.CourseNotFoundException;
 import com.udemy.in28minutes.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService;
 import com.udemy.in28minutes.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService.Status;
 
@@ -34,6 +35,8 @@ public class CourseDetailsEndpoint {
 	public GetCourseDetailsResponse processCourseDetailsRequest(
 			@RequestPayload GetCourseDetailsRequest courseDetailsRequest) {
 		Course course = service.findById(courseDetailsRequest.getId());
+		if(course==null)
+			throw new CourseNotFoundException("Invalid course id "+courseDetailsRequest.getId());
 		return mapCourseDetails(course);
 	}
 	@PayloadRoot(namespace = "http://in28minutes.udemy.com/courses", localPart = "GetAllCourseDetailsRequest")
