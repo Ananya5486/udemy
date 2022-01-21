@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class UserResource {
 	@GetMapping("/users")
 	public List<User> retrieveAllUser() {
 		List<User> findAll = daoService.findAll();
-		if(null==findAll) {
+		if (null == findAll) {
 			throw new UserNotFoundException("No user found");
 		}
 		return findAll;
@@ -42,11 +43,18 @@ public class UserResource {
 	@PostMapping("/users")
 	public ResponseEntity<Object> addUser(@RequestBody User user) {
 		User savedUser = daoService.save(user);
-		if(null==savedUser.getName()) {
+		if (null == savedUser.getName()) {
 			throw new NameNotFoundExeption("Name cannot be null");
 		}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@DeleteMapping("/users/{id}")
+	public void deleteOneUser(@PathVariable int id) {
+		User user = daoService.deleteById(id);
+		if (null == user)
+			throw new UserNotFoundException("id-" + id);
 	}
 }
