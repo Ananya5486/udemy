@@ -22,7 +22,11 @@ public class UserResource {
 
 	@GetMapping("/users")
 	public List<User> retrieveAllUser() {
-		return daoService.findAll();
+		List<User> findAll = daoService.findAll();
+		if(null==findAll) {
+			throw new UserNotFoundException("No user found");
+		}
+		return findAll;
 	}
 
 	// GET /users/{id}
@@ -38,6 +42,9 @@ public class UserResource {
 	@PostMapping("/users")
 	public ResponseEntity<Object> addUser(@RequestBody User user) {
 		User savedUser = daoService.save(user);
+		if(null==savedUser.getName()) {
+			throw new NameNotFoundExeption("Name cannot be null");
+		}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
