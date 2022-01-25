@@ -2,8 +2,13 @@ package com.udemy.in28minutes.rest.webservices.restfulwebservices.user;
 
 import java.net.URI;
 import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,15 +38,19 @@ public class UserResource {
 	// GET /users/{id}
 	// retrieveUser(int id)
 	@GetMapping("/users/{id}")
-	public User retrieveOneUser(@PathVariable int id) {
+	public EntityModel<User> retrieveOneUser(@PathVariable int id) {
 		User user = daoService.findOne(id);
 		if (null == user)
 			throw new UserNotFoundException("id-" + id);
-		return user;
+		// HATEOAS
+		EntityModel<User> resource = EntityModel.of(user);
+		WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUser());
+		resource.add(linkTo.withRel("all-users"));
+		return resource;
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity<Object> addUser(@RequestBody User user) {
+	public ResponseEntity<Object> addUser(@Valid @RequestBody User user) {
 		User savedUser = daoService.save(user);
 		if (null == savedUser.getName()) {
 			throw new NameNotFoundExeption("Name cannot be null");
